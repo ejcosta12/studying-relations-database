@@ -22,6 +22,12 @@ class CreateCustomerService {
     if (!name || !email) {
       throw new AppError('incorrect name or email', 400);
     }
+    const findByEmail = await this.customersRepository.findByEmail(email);
+
+    if (findByEmail) {
+      throw new AppError('E-mail already registered', 400);
+    }
+
     const customer = await this.customersRepository.create({
       name,
       email,
