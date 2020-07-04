@@ -11,7 +11,7 @@ import {
 import Order from '@modules/orders/infra/typeorm/entities/Order';
 import Product from '@modules/products/infra/typeorm/entities/Product';
 
-@Entity('order_products')
+@Entity('orders_products')
 class OrdersProducts {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,14 +19,14 @@ class OrdersProducts {
   @Column()
   order_id: string;
 
-  @ManyToOne(() => Order, { cascade: ['insert', 'update'], eager: true })
+  @ManyToOne(() => Order, { eager: true })
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
   @Column()
   product_id: string;
 
-  @ManyToOne(() => Product, { cascade: ['insert', 'update'], eager: true })
+  @ManyToOne(() => Product, { eager: true })
   @JoinColumn({ name: 'product_id' })
   product: Product;
 

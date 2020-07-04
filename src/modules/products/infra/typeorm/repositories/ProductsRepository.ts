@@ -1,10 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
-
-// Verificar necessidade de importar In do typeorm
-
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import IUpdateProductsQuantityDTO from '@modules/products/dtos/IUpdateProductsQuantityDTO';
+import AppError from '@shared/errors/AppError';
 import Product from '../entities/Product';
 
 interface IFindProducts {
@@ -49,9 +47,19 @@ class ProductsRepository implements IProductsRepository {
   public async updateQuantity(
     products: IUpdateProductsQuantityDTO[],
   ): Promise<Product[]> {
-    const updateQuantityProduct = await this.ormRepository.save(products);
-
-    return updateQuantityProduct;
+    const findProducts = await this.ormRepository.findByIds(products);
+    const updateProducts = findProducts.map((productFound, index) => {
+      const quantity = productFound.quantity - products[index].quantity;
+      if (quantity < 0) {
+        throw new AppError('quantity insuficient', 400);
+      }
+      return {
+        ...productFound,
+        quantity,
+      };
+    });
+    await this.ormRepository.save(updateProducts);
+    return updateProducts;
   }
 }
 
