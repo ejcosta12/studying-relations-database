@@ -12,7 +12,11 @@ export default class OrdersController {
     const order = await showOrder.execute({
       id,
     });
-    return response.json(order);
+    return response.json({
+      customer: order?.customer,
+      order_products: order?.orders_products,
+      order,
+    });
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
