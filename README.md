@@ -35,11 +35,11 @@ e aguarde para que as migrations criem tabelas e configurações no banco. As co
 Inicialização do sistema pelo node, porta 3333.
 
 #### Testes
-Neste sistema foram realizados testes pelo insomnia, através das seguintes rotas:
+Foram realizados testes pelo software insomnia, através das seguintes rotas:
 
-- GET url: http://localhost:3333/orders/:id
+- GET http://localhost:3333/orders/:id
 
-- POST url: http://localhost:3333/products
+- POST http://localhost:3333/products
 
 Exemplo body(JSON):
 ```js
@@ -50,7 +50,7 @@ Exemplo body(JSON):
 }
 ```
 
-- POST url: http://localhost:3333/customers
+- POST http://localhost:3333/customers
 
 Exemplo body(JSON):
 ```js
@@ -60,7 +60,7 @@ Exemplo body(JSON):
 }
 ```
 
-- POST url: http://localhost:3333/orders
+- POST http://localhost:3333/orders
 
 Exemplo body(JSON):
 ```js
