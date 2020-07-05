@@ -41,22 +41,30 @@ Neste sistema foram realizados testes pelo insomnia, através das seguintes rota
 
 - POST url: http://localhost:3333/products
 
-Exemplo body(JSON): {
+Exemplo body(JSON):
+```js
+{
 	"name":"Batata",
 	"price":2.4,
 	"quantity":50
 }
+```
 
 - POST url: http://localhost:3333/customers
 
-Exemplo body (JSON): {
+Exemplo body(JSON):
+```js
+{
 	"name": "Eduardo",
 	"email": "eduardo_costa0206@hotmail.com"
 }
+```
 
 - POST url: http://localhost:3333/orders
 
-Exemplo body(JSON): {
+Exemplo body(JSON):
+```js
+{
 	"customer_id": "3a77918b-0892-4050-bf5b-e4f397a6fa8f",
 	"products": [
 		{
@@ -69,3 +77,4 @@ Exemplo body(JSON): {
 		}
 	]
 }
+```
