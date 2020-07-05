@@ -1,5 +1,5 @@
 <h3 align="center">
-  Relacionamentos com banco de dados no Node.js
+  Relacionamento Muitos para Muitos - PostgreSQL e NodeJs
 </h3>
 
 <p align="center">
