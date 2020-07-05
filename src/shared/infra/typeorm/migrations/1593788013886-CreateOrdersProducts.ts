@@ -32,7 +32,7 @@ export default class CreateOrdersProducts1593788013886
           },
           {
             name: 'quantity',
-            type: 'int',
+            type: 'integer',
           },
           {
             name: 'created_at',
@@ -47,19 +47,19 @@ export default class CreateOrdersProducts1593788013886
         ],
         foreignKeys: [
           {
-            name: 'order',
+            name: 'Fk_Order',
             columnNames: ['order_id'],
             referencedTableName: 'orders',
             referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
-            name: 'product',
+            name: 'Fk_Product',
             columnNames: ['product_id'],
             referencedTableName: 'products',
             referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
         ],
@@ -68,6 +68,6 @@ export default class CreateOrdersProducts1593788013886
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_products');
+    await queryRunner.dropTable('orders_products');
   }
 }

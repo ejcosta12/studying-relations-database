@@ -29,35 +29,48 @@ class CreateOrderService {
   ) {}
 
   public async execute({ customer_id, products }: IRequest): Promise<Order> {
-    if (!products || !customer_id) {
-      throw new AppError('products or customer_id not found');
-    }
-    const findProductsId = products.map(({ id }) => ({ id }));
-    const productsIds = await this.productsRepository.findAllById(
-      findProductsId,
+    const findIfCostumerExists = await this.customersRepository.findById(
+      customer_id,
     );
-    if (!(productsIds.length === products.length)) {
-      throw new AppError('product error');
-    }
-    const customer = await this.customersRepository.findById(customer_id);
-    if (!customer) {
-      throw new AppError('customer_id error');
-    }
-    const productsData = await this.productsRepository.updateQuantity(products);
 
-    const productsRequest = productsData.map((product, index) => ({
-      product_id: product.id,
-      price: product.price,
-      quantity: products[index].quantity,
-    }));
-
-    if (!customer || !productsData) {
-      throw new AppError('Customer or products error.');
+    if (!findIfCostumerExists) {
+      throw new AppError('Customer does not exist!');
     }
-    const order = await this.ordersRepository.create({
-      customer,
-      products: productsRequest,
+
+    const findIfProductsExists = await this.productsRepository.findAllById(
+      products,
+    );
+
+    if (findIfProductsExists.length !== products.length) {
+      throw new AppError('Product not found!');
+    }
+
+    const productsOrdered = findIfProductsExists.map(storageProduct => {
+      const productOrdered = products.find(
+        product => product.id === storageProduct.id,
+      );
+
+      if (!productOrdered) {
+        throw new AppError('Product not found!');
+      }
+
+      if (storageProduct.quantity < productOrdered.quantity) {
+        throw new AppError('Quantity error');
+      }
+
+      return {
+        product_id: storageProduct.id,
+        price: storageProduct.price,
+        quantity: productOrdered.quantity,
+      };
     });
+
+    const order = await this.ordersRepository.create({
+      customer: findIfCostumerExists,
+      products: productsOrdered,
+    });
+
+    await this.productsRepository.updateQuantity(products);
 
     return order;
   }

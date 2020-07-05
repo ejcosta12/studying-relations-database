@@ -7,15 +7,22 @@ import FindOrderService from '@modules/orders/services/FindOrderService';
 
 export default class OrdersController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const showOrder = container.resolve(FindOrderService);
     const { id } = request.params;
+    const showOrder = container.resolve(FindOrderService);
     const order = await showOrder.execute({
       id,
     });
     return response.json({
-      customer: order?.customer,
-      order_products: order?.orders_products,
-      order,
+      customer: {
+        email: order?.customer.email,
+        id: order?.customer.id,
+        name: order?.customer.name,
+      },
+      order_products: order?.orders_products.map(product => ({
+        price: product.price,
+        product_id: product.product_id,
+        quantity: product.quantity,
+      })),
     });
   }
 
@@ -27,8 +34,17 @@ export default class OrdersController {
       products,
     });
     return response.json({
-      customer: order?.customer,
-      order_products: order?.orders_products,
+      id: order.id,
+      customer: {
+        email: order.customer.email,
+        id: order.customer.id,
+        name: order.customer.name,
+      },
+      order_products: order.orders_products.map(product => ({
+        price: product.price,
+        product_id: product.product_id,
+        quantity: product.quantity,
+      })),
     });
   }
 }
