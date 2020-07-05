@@ -9,8 +9,8 @@
 </p>
 
 ## Sobre
-API desenvolvida para cadastro de produtos, clientes e criação de pedidos. Para a criação de um novo pedido é necessário receber o id do cliente, 
-bem como o id de cada produto e quantidade respectiva, será avaliado a quantidade disponível em estoque e caso não exista será retornado erro, existindo 
+API desenvolvida para cadastro de produtos, clientes e criação de pedidos. Para a criação de um novo pedido é necessário receber o id do cliente,
+bem como o id de cada produto e quantidade respectiva, será avaliado a quantidade disponível em estoque e caso não exista será retornado erro, existindo
 a ordem de pedido será criada e a quantidade em estoque atualizada, sendo possível receber as informações de cada pedido, clientes e produtos em rota com o número
 de identificação do pedido.
 
@@ -25,19 +25,47 @@ de identificação do pedido.
 ### Scripts CLI
 
 #### yarn
-Instalção de todas as dependências necessárias.
+Instalação de todas as dependências necessárias.
 
 #### yarn typeorm migration:run
-Utilizando uma base de dados do postgreSQL com o nome de studying_relations_database, porta 5432 "para o desenvolvimento foi utilizado container Docker" execute o comando acima 
-e aguarde para que as migrations criem tabelas e configurações no banco. As configurações de conexão podem ser vistas no arquivo ormconfig.json
+Utilizando uma base de dados do postgreSQL com o nome de studying_relations_database, porta 5432 "para o desenvolvimento foi utilizado container Docker" execute o comando acima
+e aguarde para que as migrations criem tabelas e configurações no banco. As configurações de conexão, como usuário e senha, podem ser vistas no arquivo ormconfig.json.
 
 #### yarn dev:server
-Inicidalização do sistema pelo node na porta 3333.
+Inicialização do sistema pelo node, porta 3333.
 
 #### Testes
 Neste sistema foram realizados testes pelo insomnia, através das seguintes rotas:
+
 - GET url: http://localhost:3333/orders/:id
-- POST url: http://localhost:3333/orders
+
 - POST url: http://localhost:3333/products
+
+Exemplo body(JSON): {
+	"name":"Batata",
+	"price":2.4,
+	"quantity":50
+}
+
 - POST url: http://localhost:3333/customers
 
+Exemplo body (JSON): {
+	"name": "Eduardo",
+	"email": "eduardo_costa0206@hotmail.com"
+}
+
+- POST url: http://localhost:3333/orders
+
+Exemplo body(JSON): {
+	"customer_id": "3a77918b-0892-4050-bf5b-e4f397a6fa8f",
+	"products": [
+		{
+			"id": "084d6548-8742-4fb6-92bd-222cdddaf589",
+			"quantity": 3
+		},
+		{
+			"id": "063602f1-f042-4a82-9304-c0f0c7e69452",
+			"quantity": 3
+		}
+	]
+}
